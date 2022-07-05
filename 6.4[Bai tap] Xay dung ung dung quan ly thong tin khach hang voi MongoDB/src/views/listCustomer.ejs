@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Customers</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        const update = (id) => {
+            window.open('http://localhost:3000/customer/update/' + id);
+        };
+        const deleteCustomer = async (id) => {
+            await $.ajax({
+                url: `http://localhost:3000/customer/delete/${id}`,
+                type: "DELETE",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (result) {
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                }
+            });
+            location.reload();
+        };
+    </script>
+</head>
+<body>
+<h2>List Customer</h2>
+<% for(const customer of customers) { %>
+    <h3> Name: <%= customer.customerName %> </h3>
+<p> Age: <%= customer.age %> </p>
+<p> Address: <%= customer.address %> </p>
+<button onclick="update('<%= customer.id %>')">Update</button>
+<button onclick="deleteCustomer('<%= customer.id %>')">Delete</button>
+</br>
+<% } %>
+</body>
+</html>
